@@ -1,0 +1,80 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String       @id @default(uuid()) 
+  nome            String
+  email           String       @unique
+  senha           String
+  disciplinasCriadas Disciplina[]
+  sessoesFeitas   SessaoEstudo[]
+
+  @@map("users") 
+}
+
+model Disciplina {
+  id              String       @id @default(uuid()) 
+  nome            String       
+  descricao       String?
+  idUsuarioCriador String
+  usuarioCriador   User         @relation(fields: [idUsuarioCriador], references: [id])
+  sessoesRelacionadas SessaoEstudo[]
+
+  @@map("disciplinas")
+}
+
+model Assunto {
+  id              String       @id @default(uuid())
+  nome            String
+  descricao       String?
+
+
+  // Um Assunto pode estar em 0 ou N Sessões de Estudo
+  sessoesDeEstudo SessaoAssunto[] // A tabela de junção
+
+  // idDisciplina    String
+  // disciplina      Disciplina   @relation(fields: [idDisciplina], references: [id])
+  // @@map("assuntos")
+}
+
+model SessaoEstudo {
+  id              String       @id @default(uuid()) // PK para SessaoEstudo
+  dataHoraInicio  DateTime
+  dataHoraFim     DateTime
+  observacoes     String? 
+
+
+  // idUsuario (referencia User) - relacionamento 1:N (SessaoEstudo para User)
+  idUsuario       String
+  usuario         User         @relation(fields: [idUsuario], references: [id])
+
+  // idDisciplina (referencia Disciplina) - relacionamento 1:N (SessaoEstudo para Disciplina)
+  idDisciplina    String
+  disciplina      Disciplina   @relation(fields: [idDisciplina], references: [id])
+
+  // Relacionamento N:M com Assunto (SessaoEstudo (0,n) -- tem -- (0,n) Assunto)
+  // Uma Sessão de Estudo pode ter 0 ou N Assuntos
+  assuntos        SessaoAssunto[] // A tabela de junção
+
+  @@map("sessoes_estudo")
+}
+
+
+model SessaoAssunto {
+  idSessaoEstudo String
+  idAssunto      String
+
+  sessaoEstudo   SessaoEstudo @relation(fields: [idSessaoEstudo], references: [id])
+  assunto        Assunto      @relation(fields: [idAssunto], references: [id])
+
+  @@id([idSessaoEstudo, idAssunto]) // Chave primária composta
+  @@map("sessao_assunto")
+}
