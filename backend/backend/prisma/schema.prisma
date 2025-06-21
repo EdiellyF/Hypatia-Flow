@@ -50,7 +50,7 @@ model SessaoEstudo {
   dataHoraInicio  DateTime
   dataHoraFim     DateTime
   observacoes     String? 
-
+ 
 
   // idUsuario (referencia User) - relacionamento 1:N (SessaoEstudo para User)
   idUsuario       String

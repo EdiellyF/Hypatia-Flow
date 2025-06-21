@@ -1,5 +1,3 @@
-import { errorHandler } from "../middleware/errorHandler.js";
-
 export class DisciplinaService{
     #disciplinaRepository;
     #userService;
