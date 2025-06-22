@@ -70,34 +70,7 @@ export class SessaoRepository {
         }
     }
 
-    async findSessoesByUsuario(idUsuario) {
-        try {
-            const sessoes = await prisma.sessaoEstudo.findMany({
-                where: { idUsuario },
-                include: {
-                    disciplina: {
-                        select: {
-                            id: true,
-                            nome: true,
-                            descricao: true
-                        }
-                    },
-                    assuntos: {
-                        include: {
-                            assunto: true
-                        }
-                    }
-                },
-                orderBy: {
-                    dataHoraInicio: 'desc'
-                }
-            });
-            
-            return sessoes;
-        } catch (error) {
-            throw new Error(`Erro ao buscar sessões do usuário: ${error.message}`);
-        }
-    }
+
 
     async findSessoesByDisciplina(idDisciplina) {
         try {
@@ -128,22 +101,22 @@ export class SessaoRepository {
         }
     }
 
-    async listarSessoes() {
+
+    async findSessoesByUsuario(userId) {
         try {
             const sessoes = await prisma.sessaoEstudo.findMany({
+                where: { 
+                    idUsuario: userId 
+                },
                 include: {
                     usuario: {
                         select: {
-                            id: true,
-                            nome: true,
-                            email: true
+                            id: true
                         }
                     },
                     disciplina: {
                         select: {
-                            id: true,
-                            nome: true,
-                            descricao: true
+                            id: true
                         }
                     },
                     assuntos: {
@@ -156,10 +129,9 @@ export class SessaoRepository {
                     dataHoraInicio: 'desc'
                 }
             });
-            
             return sessoes;
         } catch (error) {
-            throw new Error(`Erro ao listar sessões: ${error.message}`);
+            throw new Error(`Erro ao listar sessões por usuário: ${error.message}`);
         }
     }
 
@@ -200,12 +172,12 @@ export class SessaoRepository {
 
     async deleteSessao(id) {
         try {
-            // Primeiro deleta os relacionamentos com assuntos
+    
             await prisma.sessaoAssunto.deleteMany({
                 where: { idSessaoEstudo: id }
             });
             
-            // Depois deleta a sessão
+
             await prisma.sessaoEstudo.delete({
                 where: { id }
             });

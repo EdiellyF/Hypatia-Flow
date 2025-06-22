@@ -8,7 +8,7 @@ export class SessaoController {
     async criarSessao(req, res) {
         try {
             const idUsuario = req.user.id;
-            const { idDisciplina, dataHoraInicio, dataHoraFim, observacoes, ciclosPomodoro } = req.body;
+            const { idDisciplina, dataHoraInicio, dataHoraFim, observacoes} = req.body;
             
             const sessaoData = {
                 idUsuario,
@@ -27,7 +27,14 @@ export class SessaoController {
 
     async listarSessoes(req, res) {
         try {
-            const sessoes = await this.#sessaoService.listarSessoes();
+           
+            const idUsuarioRequisicao = req.user.id;
+            
+            if (idUsuarioRequisicao !== req.user.id) {
+                return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
+            }
+            
+            const sessoes = await this.#sessaoService.findSessoesByUsuario(req.user.id);
             res.status(200).json(sessoes);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -43,6 +50,11 @@ export class SessaoController {
                 return res.status(404).json({ error: 'Sessão não encontrada' });
             }
             
+            // Verifica se o usuário é o dono da sessão
+            if (sessao.idUsuario !== req.user.id) {
+                return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
+            }
+            
             res.status(200).json(sessao);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -52,8 +64,18 @@ export class SessaoController {
     async atualizarSessao(req, res) {
         try {
             const { id } = req.params;
-            const sessaoData = req.body;
             
+            // Primeiro verifica se a sessão existe e se o usuário é o dono
+            const sessaoExistente = await this.#sessaoService.findSessaoById(id);
+            if (!sessaoExistente) {
+                return res.status(404).json({ error: 'Sessão não encontrada' });
+            }
+            
+            if (sessaoExistente.idUsuario !== req.user.id) {
+                return res.status(403).json({ error: 'Não autorizado: você só pode atualizar suas próprias sessões' });
+            }
+            
+            const sessaoData = req.body;
             const sessao = await this.#sessaoService.updateSessao(id, sessaoData);
             res.status(200).json(sessao);
         } catch (error) {
@@ -64,6 +86,17 @@ export class SessaoController {
     async deletarSessao(req, res) {
         try {
             const { id } = req.params;
+            
+            // Primeiro verifica se a sessão existe e se o usuário é o dono
+            const sessaoExistente = await this.#sessaoService.findSessaoById(id);
+            if (!sessaoExistente) {
+                return res.status(404).json({ error: 'Sessão não encontrada' });
+            }
+            
+            if (sessaoExistente.idUsuario !== req.user.id) {
+                return res.status(403).json({ error: 'Não autorizado: você só pode deletar suas próprias sessões' });
+            }
+            
             await this.#sessaoService.deleteSessao(id);
             res.status(204).send();
         } catch (error) {
@@ -74,6 +107,12 @@ export class SessaoController {
     async buscarSessoesPorUsuario(req, res) {
         try {
             const { idUsuario } = req.params;
+            
+            // Verifica se o usuário está tentando acessar suas próprias sessões
+            if (idUsuario !== req.user.id) {
+                return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
+            }
+            
             const sessoes = await this.#sessaoService.findSessoesByUsuario(idUsuario);
             res.status(200).json(sessoes);
         } catch (error) {

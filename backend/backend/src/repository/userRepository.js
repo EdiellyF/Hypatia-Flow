@@ -15,6 +15,7 @@ export class UserRepository{
 
 
     async findUserById(id){
+        console.log(    'xxxx' +id)
         return await prisma.user.findUnique({
             where: {
                 id

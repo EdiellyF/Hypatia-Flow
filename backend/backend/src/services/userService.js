@@ -12,6 +12,7 @@ export class UserService {
 
 
     async findUserById(id){
+        
         return await this.#userRepository.findUserById(id);
     }
 
