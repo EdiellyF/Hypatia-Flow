@@ -28,6 +28,7 @@ export class SessaoService {
 
     async findSessoesByUsuario(idUsuario) {
 
+        console.log(idUsuario);
         const user = await this.#userService.findUserById(idUsuario);
         if (!user) {
             throw new Error('Usuário não encontrado');

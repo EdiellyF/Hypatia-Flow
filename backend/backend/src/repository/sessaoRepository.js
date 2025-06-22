@@ -104,7 +104,8 @@ export class SessaoRepository {
 
     async findSessoesByUsuario(userId) {
         try {
-            const sessoes = await prisma.sessaoEstudo.findMany({
+        
+           return  await prisma.sessaoEstudo.findMany({
                 where: { 
                     idUsuario: userId 
                 },
@@ -129,7 +130,7 @@ export class SessaoRepository {
                     dataHoraInicio: 'desc'
                 }
             });
-            return sessoes;
+           
         } catch (error) {
             throw new Error(`Erro ao listar sessões por usuário: ${error.message}`);
         }

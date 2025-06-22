@@ -27,13 +27,6 @@ export class SessaoController {
 
     async listarSessoes(req, res) {
         try {
-           
-            const idUsuarioRequisicao = req.user.id;
-            
-            if (idUsuarioRequisicao !== req.user.id) {
-                return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
-            }
-            
             const sessoes = await this.#sessaoService.findSessoesByUsuario(req.user.id);
             res.status(200).json(sessoes);
         } catch (error) {
@@ -50,8 +43,8 @@ export class SessaoController {
                 return res.status(404).json({ error: 'Sessão não encontrada' });
             }
             
-            // Verifica se o usuário é o dono da sessão
-            if (sessao.idUsuario !== req.user.id) {
+
+            if (id !== req.user.id) {
                 return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
             }
             
@@ -87,7 +80,6 @@ export class SessaoController {
         try {
             const { id } = req.params;
             
-            // Primeiro verifica se a sessão existe e se o usuário é o dono
             const sessaoExistente = await this.#sessaoService.findSessaoById(id);
             if (!sessaoExistente) {
                 return res.status(404).json({ error: 'Sessão não encontrada' });
