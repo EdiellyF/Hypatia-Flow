@@ -14,6 +14,10 @@ const userController = new UserController(userService);
 const userRouter = Router();
 
 
+userRouter.post("/login", (req, res) => {
+    userController.loginUser(req, res);
+});
+
 userRouter.post("/", (req, res) => {
      userController.createUser(req, res)
 })
