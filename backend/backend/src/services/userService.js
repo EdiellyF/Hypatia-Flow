@@ -11,6 +11,23 @@ export class UserService {
     }
 
 
+
+    async verifyUserPassword(user, senha) {
+        try {
+            if (!user || !senha || !user.senha) {
+                return false;
+            }
+
+            return await bycrypt.compare(senha, user.senha);
+        } catch (error) {
+            console.error('Falha na autenticação');
+            return false;
+        }
+    }
+
+
+
+
     async findUserById(id){
         
         return await this.#userRepository.findUserById(id);
@@ -30,11 +47,15 @@ export class UserService {
 
             const token = await this.generateAuthToken(user);
         
-            this.#emailService.sendEmail(
-                user.email, 
-                "Bem vindo ao Hypatia flow",
-               `"Olá ${user.nome}, seja bem vindo ao Hypatia flow, seu token de acesso é: ${token}"`
-            );
+            try {
+                await this.#emailService.sendEmail(
+                    user.email,
+                    "Bem vindo ao Hypatia flow",
+                    `"Olá ${user.nome}, seja bem vindo ao Hypatia flow, seu token de acesso é: ${token}"`
+                );
+            } catch (error) {
+                console.log('Erro ao enviar email:', error);
+            }
 
             return {
                 user: user.nome, 
