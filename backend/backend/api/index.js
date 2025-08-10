@@ -1,7 +1,9 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
-import router from '../src/routes/server.js';
+import userRouter from '../src/routes/userRouter.js';
+import disciplinaRouter from '../src/routes/disciplinaRouter.js';
+import sessaoRouter from '../src/routes/sessaoRouter.js';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -17,13 +19,27 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use('/', router);
+
+// Rotas da API
+app.use('/api/users', userRouter);
+app.use('/api/disciplinas', disciplinaRouter);
+app.use('/api/sessoes', sessaoRouter);
+
+// Rota de teste para verificar se a API está funcionando
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
 
 export default async function handler(req, res) {
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+    
     try {
         await app(req, res);
     } catch (error) {
         console.error('Error in Vercel handler:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
 }
