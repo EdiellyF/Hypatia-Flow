@@ -21,7 +21,7 @@ const prisma = globalForPrisma.prisma;
 const app = express();
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173'],
+    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Authorization'],
@@ -38,8 +38,8 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/user', userRouter);
-app.use('/api/disciplinas', disciplinaRouter);
-app.use('/api/sessoes', sessaoRouter);
+app.use('/api/disciplina', disciplinaRouter);
+app.use('/api/sessao', sessaoRouter);
 
 
 const handler = async (req, res) => {

@@ -31,7 +31,7 @@ Esta API foi desenvolvida para fornecer uma plataforma robusta de gerenciamento 
 
 1. **Clone o repositório**
    ```bash
-   git clone [URL_DO_REPOSITORIO]
+   git clone 
    cd backend
    ```
 
