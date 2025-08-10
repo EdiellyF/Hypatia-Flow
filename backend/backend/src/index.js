@@ -5,6 +5,7 @@ import router from './routes/server.js';
 
 const app = express();
 const prisma = new PrismaClient();
+
 const corsOptions = {
     origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -18,10 +19,20 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/api', router);
 
-export default function handler(req, res) {
-  app(req, res); 
+// Configuração para ambiente de desenvolvimento
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+    });
 }
 
-
-
-export { app, prisma }; 
+// Handler para Vercel
+export default async function handler(req, res) {
+    try {
+        await app(req, res);
+    } catch (error) {
+        console.error('Error in Vercel handler:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+} 
