@@ -18,10 +18,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/api', router);
 
-const PORT = process.env.PORT || 3000;
+export default function handler(req, res) {
+  app(req, res); 
+}
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+
 
 export { app, prisma }; 
