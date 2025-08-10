@@ -7,10 +7,9 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-tos
-import userRouter from '../../src/routes/userRouter.js';
-import disciplinaRouter from '../../src/routes/disciplinaRouter.js';
-import sessaoRouter from '../../src/routes/sessaoRouter.js';
+import { router as userRouter } from '../src/routes/userRouter.js';
+import { router as disciplinaRouter } from '../src/routes/disciplinaRouter.js';
+import { router as sessaoRouter } from '../src/routes/sessaoRouter.js';
 
 
 const globalForPrisma = globalThis;

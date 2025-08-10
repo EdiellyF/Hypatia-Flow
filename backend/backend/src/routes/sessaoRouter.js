@@ -27,6 +27,6 @@ router.post('/', authMiddleware , (req, res) => sessaoController.criarSessao(req
 router.get('/user/:id', authMiddleware, (req, res) => sessaoController.buscarSessoesPorUsuario(req, res));
 
 
-export default router;
+export { router };
 
 
