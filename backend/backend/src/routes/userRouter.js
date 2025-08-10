@@ -11,16 +11,14 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository, emailService);
 const userController = new UserController(userService);
 
-const userRouter = Router();
+const router = Router();
 
-
-userRouter.post("/login", (req, res) => {
+router.post("/login", (req, res) => {
     userController.loginUser(req, res);
 });
 
-userRouter.post("/", (req, res) => {
+router.post("/", (req, res) => {
      userController.createUser(req, res)
-})
+});
 
-     
-export {userRouter};
+export { router };

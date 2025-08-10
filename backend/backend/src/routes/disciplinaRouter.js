@@ -18,10 +18,10 @@ const disciplinaService = new DisciplinaService(disciplinaRepository, userServic
 
 const disciplinaController = new DisciplinaController(disciplinaService);
 
-const disciplinaRouter = Router();
+const router = Router();
 
-disciplinaRouter.post('/', authMiddleware, (req, res) => disciplinaController.createDisciplina(req, res));
+router.post('/', authMiddleware, (req, res) => disciplinaController.createDisciplina(req, res));
 
-disciplinaRouter.delete('/:id', authMiddleware,(req, res) => disciplinaController.deleteDisciplinaById(req,res))
+router.delete('/:id', authMiddleware,(req, res) => disciplinaController.deleteDisciplinaById(req,res))
 
-export {disciplinaRouter};
+export { router };
