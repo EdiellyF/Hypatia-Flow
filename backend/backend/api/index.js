@@ -1,12 +1,25 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
-import userRouter from '../src/routes/userRouter.js';
-import disciplinaRouter from '../src/routes/disciplinaRouter.js';
-import sessaoRouter from '../src/routes/sessaoRouter.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+tos
+import userRouter from '../../src/routes/userRouter.js';
+import disciplinaRouter from '../../src/routes/disciplinaRouter.js';
+import sessaoRouter from '../../src/routes/sessaoRouter.js';
+
+
+const globalForPrisma = globalThis;
+if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = new PrismaClient();
+}
+const prisma = globalForPrisma.prisma;
 
 const app = express();
-const prisma = new PrismaClient();
 
 const corsOptions = {
     origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173'],
@@ -20,26 +33,51 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Rotas da API
-app.use('/api/users', userRouter);
-app.use('/api/disciplinas', disciplinaRouter);
-app.use('/api/sessoes', sessaoRouter);
 
-// Rota de teste para verificar se a API está funcionando
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-export default async function handler(req, res) {
+app.use('/api/user', userRouter);
+app.use('/api/disciplinas', disciplinaRouter);
+app.use('/api/sessoes', sessaoRouter);
+
+
+const handler = async (req, res) => {
     if (req.method === 'OPTIONS') {
         res.status(200).end();
         return;
     }
-    
+
     try {
-        await app(req, res);
+
+        console.log('Request:', {
+            method: req.method,
+            path: req.url,
+            query: req.query,
+            body: req.body
+        });
+
+
+        await new Promise((resolve, reject) => {
+            app(req, res, (err) => {
+                if (err) {
+                    console.error('Express error:', err);
+                    reject(err);
+                }
+                resolve();
+            });
+        });
     } catch (error) {
-        console.error('Error in Vercel handler:', error);
-        res.status(500).json({ error: 'Internal Server Error', message: error.message });
+        console.error('Handler error:', error);
+        if (!res.headersSent) {
+            res.status(500).json({ 
+                error: 'Internal Server Error', 
+                message: error.message,
+                path: req.url
+            });
+        }
     }
-}
+};
+
+export default handler;
