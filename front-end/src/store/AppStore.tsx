@@ -61,8 +61,7 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
     if (user) {
       refreshDisciplines();
       refreshSessions();
-      refreshConquistas();
-      refreshNivel();
+ 
     }
   }, [user]); 
   async function refreshDisciplines() {
@@ -84,6 +83,7 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
       const data = await api.getSessions();
       const sessionsData = Array.isArray(data) ? data : data?.items || [];
       setSessions(sessionsData);
+
       return sessionsData; 
     } catch (e) {
       console.error('Erro ao atualizar sessões:', e);
@@ -92,33 +92,9 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function refreshConquistas() {
-    if (!user || !user.id) {
-        console.warn('User ID not available, skipping refreshConquistas');
-        return;
-    }
-    try {
-        const conquistasData = await api.getConquistas(user.id);
-        setConquistas(conquistasData);
-    } catch (error) {
-        console.error('Error fetching conquistas:', error);
-    }
-}
 
-async function refreshNivel() {
-    if (!user || !user.id) {
-        console.warn('User ID not available, skipping refreshNivel');
-        return;
-    }
-    try {
-        const nivelData = await api.getNivel(user.id);
-        setNivel(nivelData.nivel);
-        setXp(nivelData.xp);
-        setNextLevelXp(nivelData.nextLevelXp);
-    } catch (error) {
-        console.error('Error fetching nivel:', error);
-    }
-}
+
+
   function loginWithToken(newToken: string, u: User) {
 
     localStorage.setItem("jwt_token", newToken);
@@ -143,16 +119,10 @@ async function refreshNivel() {
     token,
     disciplines,
     sessions,
-    conquistas,
-    level,
-    xp,  
-    nextLevelXp,
     loginWithToken,
     logout,
     refreshDisciplines,
-    refreshSessions,
-    refreshConquistas,
-    refreshNivel,
+    refreshSessions
   };
 
   return <AppStoreContext.Provider value={value}>{children}</AppStoreContext.Provider>;

@@ -30,7 +30,7 @@ export default function Login() {
         if (data?.token && data?.user) {
           loginWithToken(data.token, data.user);
           toast({ title: "Bem-vindo(a)!", description: "Login realizado com sucesso." });
-          navigate("/dashboard");
+          navigate("/estudo/dashboard");
         }
       } else {
         const data = await api.register(nome, email, senha);

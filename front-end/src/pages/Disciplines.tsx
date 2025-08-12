@@ -5,6 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Disciplines() {
   const { disciplines, refreshDisciplines } = useAppStore();
@@ -38,7 +49,7 @@ export default function Disciplines() {
       toast({ title: "Removida" });
       await refreshDisciplines();
     } catch (e: any) {
-      toast({ title: "Erro", description: e?.message || "Falha ao remover" });
+      toast({ title: "Erro", description: "Falha ao remover disciplina, disciplina já associada as sessoes de estudo!!" });
     }
   }
 
@@ -70,7 +81,23 @@ export default function Disciplines() {
                 {disciplines.map((d) => (
                   <li key={d.id} className="flex items-center justify-between p-3 rounded-lg border bg-card">
                     <span>{d.nome}</span>
-                    <Button variant="secondary" onClick={() => remove(d.id)}>Excluir</Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="secondary">Excluir</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Isso vai apagar permanentemente a disciplina e todo o seu histórico de sessões de estudo. Essa ação não pode ser desfeita.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => remove(d.id)}>Sim, excluir</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </li>
                 ))}
               </ul>

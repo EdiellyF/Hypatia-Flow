@@ -56,15 +56,15 @@ export default function Study() {
   }
 
   return (
-    <main className="container mx-auto px-4 sm:px-6 py-10 animate-enter">
-      <Card>
-        <CardHeader>
-          <CardTitle>Foco</CardTitle>
+    <main className="container mx-auto px-4 py-8 max-w-lg"> 
+      <Card className="shadow-xl rounded-xl">
+        <CardHeader className="border-b">
+          <CardTitle className="text-2xl">Sessão de Estudo</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid sm:grid-cols-2 gap-4">
+        <CardContent className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm mb-1">Disciplina</label>
+              <label className="block text-sm font-medium mb-2">Disciplina</label>
               <Select value={selected} onValueChange={setSelected}>
                 <SelectTrigger>
                   <SelectValue placeholder="Escolha a disciplina" />
@@ -76,17 +76,17 @@ export default function Study() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-end">
-              <div className="text-3xl font-extrabold">{String(Math.floor(seconds / 60)).padStart(2, '0')}:{String(seconds % 60).padStart(2, '0')}</div>
+            <div className="flex items-center justify-center bg-accent rounded-lg p-4">
+              <div className="text-4xl font-mono">{String(Math.floor(seconds / 60)).padStart(2, '0')}:{String(seconds % 60).padStart(2, '0')}</div>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm mb-1">Observações</label>
-            <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="O que estudou? Alguma nota importante?" />
+            <label className="block text-sm font-medium mb-2">Observações</label>
+            <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="O que estudou? Alguma nota importante?" className="min-h-[100px]" />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex justify-end gap-3">
             {!running ? (
               <Button onClick={() => setRunning(true)}>Iniciar</Button>
             ) : (

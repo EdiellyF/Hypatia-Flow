@@ -3,11 +3,8 @@ import { useAppStore } from "@/store/AppStore";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
@@ -16,7 +13,8 @@ import { MobileNav } from "./MobileNav";
 
 export function MainNav() {
   const location = useLocation();
-  const { user, logout } = useAppStore();
+  const { user, logout, disciplines } = useAppStore();
+  const navigate = useNavigate();
 
   const isAuthenticated = !!user;
   const isPublicPage = location.pathname === "/" || location.pathname === "/login";
@@ -26,7 +24,7 @@ export function MainNav() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center px-3 sm:px-6">
+      <div className="container flex h-14 items-center px-3 sm:px-6 justify-end">
         <MobileNav />
         
         <NavigationMenu className="hidden md:flex flex-1">
@@ -49,17 +47,19 @@ export function MainNav() {
                   </Link>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <Link 
-                    to="./estudo" 
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      location.pathname === "/estudo" && "bg-accent text-accent-foreground"
-                    )}
-                  >
-                    Estudo
-                  </Link>
-                </NavigationMenuItem>
+                {disciplines && disciplines.length > 0 && (
+                  <NavigationMenuItem>
+                    <Link 
+                      to="./estudo" 
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        location.pathname === "./estudo" && "bg-accent text-accent-foreground"
+                      )}
+                    >
+                      Estudo
+                    </Link>
+                  </NavigationMenuItem>
+                )}
 
                 <NavigationMenuItem>
                   <Link 
