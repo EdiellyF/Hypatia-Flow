@@ -24,7 +24,9 @@ const sessaoController = new SessaoController(sessaoService);
 
 
 router.post('/', authMiddleware , (req, res) => sessaoController.criarSessao(req, res));
-router.get('/user/:id', authMiddleware, (req, res) => sessaoController.buscarSessoesPorUsuario(req, res));
+router.get('/', authMiddleware, (req, res) => sessaoController.listarSessoes(req, res));
+router.put('/:id', authMiddleware, (req, res) => sessaoController.atualizarSessao(req, res));
+router.delete('/:id', authMiddleware, (req, res) => sessaoController.deletarSessao(req, res));
 
 
 export { router };

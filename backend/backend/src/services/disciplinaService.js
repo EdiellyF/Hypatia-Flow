@@ -26,6 +26,11 @@ export class DisciplinaService{
     }
 
 
+
+    async findAllDisciplinas(userId) {
+        return await this.#disciplinaRepository.findAllDisciplinas(userId);
+    }
+
   
     async deleteDisciplinaById(id){
         return await this.#disciplinaRepository.deleteDisciplinaById(id);

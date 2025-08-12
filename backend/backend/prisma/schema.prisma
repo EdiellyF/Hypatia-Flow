@@ -78,3 +78,37 @@ model SessaoAssunto {
   @@id([idSessaoEstudo, idAssunto]) // Chave primária composta
   @@map("sessao_assunto")
 }
+
+model Conquista {
+  id          String          @id @default(uuid())
+  nome        String
+  descricao   String
+  criterio    String          // Ex: "total_minutos > 60"
+  userConquistas UserConquista[]
+
+  @@map("conquistas")
+}
+
+model UserConquista {
+  id               String    @id @default(uuid())
+  userId           String
+  conquistaId      String
+  dataDesbloqueio  DateTime  @default(now())
+
+  user             User      @relation(fields: [userId], references: [id])
+  conquista        Conquista @relation(fields: [conquistaId], references: [id])
+
+  @@unique([userId, conquistaId])
+  @@map("user_conquistas")
+}
+
+
+model User {
+  id              String       @id @default(uuid()) 
+  nome            String
+  email           String       @unique
+  senha           String
+  disciplinasCriadas Disciplina[]
+  sessoesFeitas   SessaoEstudo[]
+  conquistas UserConquista[]
+}
