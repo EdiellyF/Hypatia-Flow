@@ -8,7 +8,7 @@ export default defineConfig({
     minify: false,  // Desabilita minificação para teste
     sourcemap: false,
     rollupOptions: {
-      external: ['@/components/ui/toaster'],
-    },
+      external: [] 
+    }
   }
 })
