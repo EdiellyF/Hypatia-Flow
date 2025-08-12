@@ -21,7 +21,7 @@ const prisma = globalForPrisma.prisma;
 const app = express();
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
+    origin: '*', 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Authorization'],
@@ -40,6 +40,13 @@ app.get('/api/health', (req, res) => {
 app.use('/api/user', userRouter);
 app.use('/api/disciplina', disciplinaRouter);
 app.use('/api/sessao', sessaoRouter);
+
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
 
 
 const handler = async (req, res) => {

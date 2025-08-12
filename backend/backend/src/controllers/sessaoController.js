@@ -18,6 +18,8 @@ export class SessaoController {
                 observacoes
             };
 
+            console.log(sessaoData)
+
             const sessao = await this.#sessaoService.createSessao(sessaoData);
             res.status(201).json(sessao);
         } catch (error) {
@@ -44,7 +46,7 @@ export class SessaoController {
             }
             
 
-            if (id !== req.user.id) {
+            if (sessao.idUsuario.toString() !== req.user.id.toString()) {
                 return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
             }
             
@@ -57,8 +59,7 @@ export class SessaoController {
     async atualizarSessao(req, res) {
         try {
             const { id } = req.params;
-            
-            // Primeiro verifica se a sessão existe e se o usuário é o dono
+
             const sessaoExistente = await this.#sessaoService.findSessaoById(id);
             if (!sessaoExistente) {
                 return res.status(404).json({ error: 'Sessão não encontrada' });
@@ -98,16 +99,24 @@ export class SessaoController {
 
     async buscarSessoesPorUsuario(req, res) {
         try {
-            const { idUsuario } = req.params;
+            const { idUsuario } = req.user.id;
+            console.log(idUsuario)
+            if (!idUsuario) {
+                return res.status(400).json({ error: 'Parâmetro idUsuario é obrigatório' });
+            }
+            console.log('SessaoController.buscarSessoesPorUsuario chamado com idUsuario:', idUsuario);
             
-            // Verifica se o usuário está tentando acessar suas próprias sessões
-            if (idUsuario !== req.user.id) {
+         
+            if (idUsuario.toString() !== req.user.id.toString()) {
+                console.log('Tentativa de acesso não autorizado para sessões do usuário:', idUsuario);
                 return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
             }
             
             const sessoes = await this.#sessaoService.findSessoesByUsuario(idUsuario);
+            console.log(`Sessões retornadas para usuário ${idUsuario}:`, sessoes.length);
             res.status(200).json(sessoes);
         } catch (error) {
+            console.error('Erro em buscarSessoesPorUsuario:', error);
             res.status(400).json({ error: error.message });
         }
     }

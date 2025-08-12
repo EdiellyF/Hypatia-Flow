@@ -40,4 +40,33 @@ export class DisciplinaRepository {
             }
         })
     }
+
+
+    async findAllDisciplinas(userId) {
+        return await prisma.disciplina.findMany({
+            where: {
+                idUsuarioCriador: userId
+            }
+        });
+    }
+
+
+    async findDisciplinasByUserId(userId) {
+        return await prisma.disciplina.findMany({
+            where: {
+                idUsuarioCriador: userId
+            }
+        });
+    }
+
+
+
+    async findDisciplinaByName(nome, userId) {
+        return await prisma.disciplina.findFirst({
+            where: {
+                nome,
+                idUsuarioCriador: userId
+            }
+        });
+    }
 }

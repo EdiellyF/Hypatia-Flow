@@ -21,7 +21,7 @@ export class DisciplinaController{
             return new errorHandler(res, 400, "Disciplina já existe").send();
         }
 
-        const disciplina = await this.#disciplinaService.createDisciplina({userId: req.user.id, nome, descricao});
+        const disciplina = await this.#disciplinaService.createDisciplina({userId: req.user.id, nome, descricao: descricao || null});
         console.log(disciplina)
 
 
@@ -71,6 +71,33 @@ export class DisciplinaController{
             }
 
 
+    }
+
+
+    async getDisciplinaById(req, res) {
+        try {
+            const { id } = req.params;
+            const disciplina = await this.#disciplinaService.findDisciplinaById(id);
+
+            if (!disciplina) {
+                return new errorHandler(res, 404, "Disciplina não encontrada").send();
+            }
+
+            return res.status(200).json(disciplina);
+        } catch (error) {
+            console.error('Erro ao buscar disciplina por ID:', error);
+            return new errorHandler(res, 500, `Erro ao buscar disciplina por ID: ${error.message}`).send();
+        }
+    }
+    
+    async getAllDisciplinas(req, res) {
+        try {
+            const disciplinas = await this.#disciplinaService.findAllDisciplinas(req.user.id);
+            return res.status(200).json(disciplinas);
+        } catch (error) {
+            console.error('Erro ao buscar todas as disciplinas:', error);
+            return new errorHandler(res, 500, `Erro ao buscar todas as disciplinas: ${error.message}`).send();
+        }
     }
 
 }
