@@ -39,7 +39,6 @@ export class SessaoService {
     }
 
     async findSessoesByUsuario(idUsuario) {
-        console.log('SessaoService.findSessoesByUsuario chamado com idUsuario:', idUsuario);
         const user = await this.#userService.findUserById(idUsuario);
         if (!user) {
             console.log('Usuário não encontrado no banco:', idUsuario);

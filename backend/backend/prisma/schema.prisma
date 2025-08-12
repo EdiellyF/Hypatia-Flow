@@ -16,6 +16,7 @@ model User {
   senha           String
   disciplinasCriadas Disciplina[]
   sessoesFeitas   SessaoEstudo[]
+  conquistas UserConquista[]
 
   @@map("users") 
 }
@@ -58,7 +59,7 @@ model SessaoEstudo {
 
   // idDisciplina (referencia Disciplina) - relacionamento 1:N (SessaoEstudo para Disciplina)
   idDisciplina    String
-  disciplina      Disciplina   @relation(fields: [idDisciplina], references: [id])
+  disciplina      Disciplina   @relation(fields: [idDisciplina], references: [id], onDelete: Cascade)
 
   // Relacionamento N:M com Assunto (SessaoEstudo (0,n) -- tem -- (0,n) Assunto)
   // Uma Sessão de Estudo pode ter 0 ou N Assuntos
@@ -103,12 +104,3 @@ model UserConquista {
 }
 
 
-model User {
-  id              String       @id @default(uuid()) 
-  nome            String
-  email           String       @unique
-  senha           String
-  disciplinasCriadas Disciplina[]
-  sessoesFeitas   SessaoEstudo[]
-  conquistas UserConquista[]
-}

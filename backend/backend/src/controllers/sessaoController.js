@@ -100,20 +100,19 @@ export class SessaoController {
     async buscarSessoesPorUsuario(req, res) {
         try {
             const { idUsuario } = req.user.id;
-            console.log(idUsuario)
+      
             if (!idUsuario) {
                 return res.status(400).json({ error: 'Parâmetro idUsuario é obrigatório' });
             }
-            console.log('SessaoController.buscarSessoesPorUsuario chamado com idUsuario:', idUsuario);
+
             
          
             if (idUsuario.toString() !== req.user.id.toString()) {
-                console.log('Tentativa de acesso não autorizado para sessões do usuário:', idUsuario);
                 return res.status(403).json({ error: 'Não autorizado: você só pode visualizar suas próprias sessões' });
             }
             
             const sessoes = await this.#sessaoService.findSessoesByUsuario(idUsuario);
-            console.log(`Sessões retornadas para usuário ${idUsuario}:`, sessoes.length);
+
             res.status(200).json(sessoes);
         } catch (error) {
             console.error('Erro em buscarSessoesPorUsuario:', error);
