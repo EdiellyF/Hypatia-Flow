@@ -49,7 +49,7 @@ export default function Study() {
 
       toast({ title: "Sessão concluída!", description: `+${minutes} XP, +${Math.floor(minutes/10)} pétalas` });
       await refreshSessions();
-      navigate("./");
+      navigate("/estudo/dashboard");
     } catch (e: any) {
       toast({ title: "Erro", description: e?.message || "Falha ao salvar sessão" });
     }
