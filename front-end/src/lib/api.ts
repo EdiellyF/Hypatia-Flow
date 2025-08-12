@@ -1,6 +1,4 @@
 
-// Remova: import { env } from "process";
-
 export const BASE_URL = import.meta.env.VITE_API_URL;  
 
 export const request = async (endpoint: string, options: RequestInit = {}) => {
@@ -37,7 +35,4 @@ export const api = {
   getSessions: () => request(`/sessao`, { method: "GET" }),
   createSession: (payload: { idDisciplina: string; minutos: number; observacoes?: string; dataHoraInicio?: string; dataHoraFim?: string }) =>
     request("/sessao", { method: "POST", body: JSON.stringify(payload) }),
-    getConquistas: (userId: string) => request(`/conquista/${userId}`, { method: "GET" }),
-  getNivel: (userId: string) => request(`/conquista/nivel/${userId}`, { method: "GET" }),
-  checkConquistas: (userId: string) => request(`/conquista/check/${userId}`, { method: "POST" }),
 };

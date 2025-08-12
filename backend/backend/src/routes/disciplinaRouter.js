@@ -6,22 +6,30 @@ import { DisciplinaService } from '../services/disciplinaService.js';
 import { UserService } from '../services/userService.js';
 import { UserRepository } from '../repository/userRepository.js';
 import { EmailService } from '../services/emailService.js';
+import { SessaoService } from '../services/sessaoService.js';
+
 
 const userRepository = new UserRepository();
 const disciplinaRepository = new DisciplinaRepository();
 
 const emailService = new EmailService();
 const userService = new UserService(userRepository, emailService);
+
+
+
+
 const disciplinaService = new DisciplinaService(disciplinaRepository, userService);
+
 
 const disciplinaController = new DisciplinaController(disciplinaService);
 
 const router = Router();
 
-// Rotas de disciplina com autenticação
+
 router.post('/', authMiddleware, (req, res) => disciplinaController.createDisciplina(req, res));
 router.get('/', authMiddleware, (req, res) => disciplinaController.getAllDisciplinas(req, res));
 router.get('/:id', authMiddleware, (req, res) => disciplinaController.getDisciplinaById(req, res));
 router.delete('/:id', authMiddleware, (req, res) => disciplinaController.deleteDisciplinaById(req, res));
+
 
 export { router };

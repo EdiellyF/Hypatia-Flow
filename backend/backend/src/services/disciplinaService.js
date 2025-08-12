@@ -33,7 +33,7 @@ export class DisciplinaService{
 
   
     async deleteDisciplinaById(id){
-        return await this.#disciplinaRepository.deleteDisciplinaById(id);
+     return await this.#disciplinaRepository.deleteDisciplinaById(id);
     }
 
     async findDisciplinaByName(nome, userId) {

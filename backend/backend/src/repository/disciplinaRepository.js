@@ -42,6 +42,8 @@ export class DisciplinaRepository {
     }
 
 
+
+
     async findAllDisciplinas(userId) {
         return await prisma.disciplina.findMany({
             where: {

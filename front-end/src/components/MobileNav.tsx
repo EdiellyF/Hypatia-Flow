@@ -8,7 +8,8 @@ import { Menu, LogOut } from "lucide-react";
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const { user, logout } = useAppStore();
+  const { user, logout, disciplines } = useAppStore();
+  const navigate = useNavigate();
 
  
   const isAuthenticated = !!user;
@@ -38,13 +39,15 @@ export function MobileNav() {
                 >
                   Dashboard
                 </Link>
-                <Link 
-                  to="./estudo" 
-                  className={`px-3 py-2.5 rounded-md text-sm font-medium hover:bg-accent/50 ${location.pathname === "/estudo" ? "bg-accent text-accent-foreground" : ""}`}
-                  onClick={() => setOpen(false)}
-                >
-                  Estudo
-                </Link>
+                {disciplines && disciplines.length > 0 && (
+                  <Link 
+                    to="./estudo" 
+                    className={`px-3 py-2.5 rounded-md text-sm font-medium hover:bg-accent/50 ${location.pathname === "/estudo" ? "bg-accent text-accent-foreground" : ""}`}
+                    onClick={() => setOpen(false)}
+                  >
+                    Estudo
+                  </Link>
+                )}
                 <Link 
                   to="./disciplinas" 
                   className={`px-3 py-2.5 rounded-md text-sm font-medium hover:bg-accent/50 ${location.pathname === "/disciplinas" ? "bg-accent text-accent-foreground" : ""}`}

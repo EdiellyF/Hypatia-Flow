@@ -112,12 +112,16 @@ export class SessaoRepository {
                 include: {
                     usuario: {
                         select: {
-                            id: true
+                            id: true,
+                            nome: true,
+                            email: true
                         }
                     },
                     disciplina: {
                         select: {
-                            id: true
+                            id: true,
+                            nome: true,
+                            descricao: true
                         }
                     },
                     assuntos: {

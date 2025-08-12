@@ -22,7 +22,7 @@ export class DisciplinaController{
         }
 
         const disciplina = await this.#disciplinaService.createDisciplina({userId: req.user.id, nome, descricao: descricao || null});
-        console.log(disciplina)
+
 
 
         return res.status(201).json({message: "Disciplina criada com sucesso", disciplina});
