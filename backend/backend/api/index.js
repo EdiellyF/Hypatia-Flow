@@ -22,7 +22,7 @@ const app = express();
 
 const corsOptions = {
     origin: [
-        process.env.FRONTEND_URL,
+         process.env.FRONTEND_URL,
         'http://localhost:3000',
         'http://localhost:5173',
         'http://127.0.0.1:5173',
@@ -56,10 +56,6 @@ app.listen(PORT, () => {
 
 
 const handler = async (req, res) => {
-    if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
-    }
 
     try {
 

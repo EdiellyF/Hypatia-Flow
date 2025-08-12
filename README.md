@@ -1,4 +1,4 @@
-# Hypatia-Flow 🌸
+# Hypatia-Flow 
 
 [![React](https://img.shields.io/badge/React-v18.2-blue?logo=react&style=for-the-badge)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-v20.x-green?logo=nodedotjs&style=for-the-badge)](https://nodejs.org/)
@@ -8,11 +8,11 @@
 
 **Hypatia-Flow** é uma aplicação web projetada para gamificar o processo de estudo, ajudando estudantes a se manterem motivados e organizados. Inspirado na tranquilidade das flores de cerejeira (sakura), o app transforma a disciplina em uma jornada visualmente recompensadora.
 
-### ✨ [Acesse a demonstração ao vivo](https://hypatia-flow.vercel.app/)
+### [Acesse a demonstração ao vivo](https://hypatia-flow.vercel.app/)
 
 ---
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
 - **Gamificação Intuitiva**: Ganhe XP e suba de nível a cada minuto de estudo. Veja seu progresso refletido visualmente.
 - **Gerenciamento de Disciplinas**: Adicione, edite e organize facilmente todas as suas matérias de estudo.
@@ -24,7 +24,19 @@
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Telas da Aplicação
+
+| Dashboard | Disciplinas | Sessão de Estudo |
+| :---: | :---: | :---: |
+| <img src="img/foto-01.png" alt="Dashboard" width="100%"> | <img src="img/foto-02.png" alt="Disciplinas" width="100%"> | <img src="img/foto-03.png" alt="Sessão de Estudo" width="100%"> |
+
+| Progresso | Calendário | Conquistas |
+| :---: | :---: | :---: |
+| <img src="img/foto-04.png" alt="Progresso" width="100%"> | <img src="img/foto-05.png" alt="Calendário" width="100%"> | <img src="img/foto-06.png" alt="Conquistas" width="100%"> |
+
+---
+
+## Tecnologias Utilizadas
 
 | Área       | Tecnologia                                                                                                 |
 | :--------- | :--------------------------------------------------------------------------------------------------------- |
@@ -35,7 +47,7 @@
 
 ---
 
-## 🏁 Começando
+## Começando
 
 Siga estas instruções para configurar e executar o projeto em seu ambiente local.
 
@@ -98,12 +110,10 @@ Siga estas instruções para configurar e executar o projeto em seu ambiente loc
 
 ---
 
-## 🤝 Contribuições
+## Contribuições
 
 Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir *issues* para relatar bugs ou sugerir novas funcionalidades, ou enviar *pull requests* com melhorias.
 
-## 📄 Licença
+## Licença
 
 Este projeto está licenciado sob a **Licença MIT**. Veja o arquivo `LICENSE` para mais detalhes.
-
-
